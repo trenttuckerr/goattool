@@ -8,10 +8,6 @@ GoatTool is a command-line utility designed to assist users in exploring and und
 gcc file_operations.c text_operations.c main.c -o goattool
 ```
 
-## How to Run
-Certainly! Here's the complete markdown text for GoatTool's README.md file:
-
-markdown
 
 # GoatTool
 

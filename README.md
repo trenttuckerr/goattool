@@ -1,17 +1,6 @@
-# GoatTool
+# goattool
 
-GoatTool is a command-line utility designed to assist users in exploring and understanding the file system of their Unix-like operating systems. It offers various operations, including printing file contents, searching for specific strings, printing file sizes, merging files, compressing and decompressing files in the .goat format, displaying file permissions, moving files, and providing a help page. With its straightforward interface and an array of essential operations, GoatTool simplifies the management of files and provides insights into your file system.
-
-## How to Compile
-
-```bash
-gcc file_operations.c text_operations.c main.c -o goattool
-```
-
-
-# GoatTool
-
-GoatTool is a command-line utility designed to assist users in exploring and understanding the file system of their Unix-like operating systems. It offers various operations, including printing file contents, searching for specific strings, printing file sizes, merging files, compressing and decompressing files in the .goat format, displaying file permissions, moving files, and providing a help page. With its straightforward interface and an array of essential operations, GoatTool simplifies the management of files and provides insights into your file system.
+goattool is a command-line utility designed to assist users in exploring and understanding the file system of their Unix-like operating systems. It offers various operations, including printing file contents, searching for specific strings, printing file sizes, merging files, compressing and decompressing files in the .goat format, displaying file permissions, moving files, and providing a help page. With its straightforward interface and an array of essential operations, GoatTool simplifies the management of files and provides insights into your file system.
 
 # Author
 Trent Tucker

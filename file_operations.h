@@ -1,3 +1,14 @@
+/*
+ * File: file_operations.h
+ * Author: Trent Tucker
+ * Description: header for the file operations
+ *              of the tool
+ *
+ * GitHub Repository: https://github.com/trenttuckerr/goattool
+ *
+ * Created on: November 19, 2023
+ */
+
 #ifndef FILE_OPERATIONS_H
 #define FILE_OPERATIONS_H
 

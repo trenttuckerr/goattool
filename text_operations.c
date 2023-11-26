@@ -28,11 +28,9 @@ void compress_to_goat(const char* source_file_path) {
         return;
     }
 
-    // create the compressed .goat file
-    char goat_file_path[256]; // change if needed
+    char goat_file_path[256];
     strcpy(goat_file_path, source_file_path);
 
-    // get our file to be .goat and rid old extension
     char * last_dot = strchr(goat_file_path, '.');
     if(last_dot != NULL) {
         strcpy(last_dot, ".goat");
@@ -50,19 +48,16 @@ void compress_to_goat(const char* source_file_path) {
 
     while (current_char != EOF) {
         if (current_char == ' ') {
-            // space character, print without compression due to reqs
             fprintf(goat_file, "%c", current_char);
             current_char = fgetc(source_file);
             continue;
         } else if (current_char == '\n') {
-            // newline character, represent it in compressed form
             fprintf(goat_file, "\\n%d", count);
             current_char = fgetc(source_file);
             count = 1;
             continue;
         }
 
-        // we are dealing with a non-space, non-newline character
         int next_char = fgetc(source_file);
 
         if (next_char == current_char) {
@@ -93,7 +88,6 @@ void compress_to_goat(const char* source_file_path) {
  * @param source_goat_file_path The path of the source .goat file.
  */
 void decompress_from_goat(const char* source_goat_file_path) {
-// open the source .goat file for reading
     FILE* source_file = fopen(source_goat_file_path, "r");
     if (source_file == NULL) {
         perror("Error opening source .goat file");
@@ -104,7 +98,6 @@ void decompress_from_goat(const char* source_goat_file_path) {
     snprintf(decompressed_file_path, sizeof(decompressed_file_path),
              "%s.decompressed.txt", source_goat_file_path);
 
-    // open the decompressed file for writing
     FILE* decompressed_file = fopen(decompressed_file_path, "w");
     if (decompressed_file == NULL) {
         perror("Error creating decompressed file");
@@ -112,15 +105,11 @@ void decompress_from_goat(const char* source_goat_file_path) {
         return;
     }
 
-    // variables to store the current character and count
     char current_char;
     int count = 1;
 
-    // read characters from .goat
     while (fscanf(source_file, "%c", &current_char) == 1) {
-        // check for the count immediately following the character
         if (fscanf(source_file, "%d", &count) != 1) {
-            // if count is not provided, set it to 1
             count = 1;
         }
 
@@ -131,7 +120,6 @@ void decompress_from_goat(const char* source_goat_file_path) {
                 fprintf(decompressed_file, "\n");
             }
         } else {
-            // write count times to file
             for (int i = 0; i < count; i++) {
                 fprintf(decompressed_file, "%c", current_char);
             }

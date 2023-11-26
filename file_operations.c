@@ -32,7 +32,6 @@ void print_file_contents(const char *files[], int num_files) {
         }
         printf("Contents of file: %s\n", files[i]);
 
-        // read file one character at a time, and output each character
         int character;
         while ((character = fgetc(file)) != EOF) {
             putchar(character);
@@ -63,9 +62,8 @@ void search_file_for_string(const char* file_path,
         return;
     }
 
-    // read and print lines containing the search string
-    char line[256]; // adjust size upon need
-    int found = 0;   // flag indication -> have we found the string?
+    char line[256];
+    int found = 0;
 
     while (fgets(line, sizeof(line), file) != NULL) {
         if (strstr(line, search_string) != NULL) {
@@ -94,7 +92,6 @@ void print_file_size(const char* files[], int num_files) {
     for (int i = 0; i < num_files; ++i) {
         const char* FILE_PATH = files[i];
 
-        // utilize stat to get file information, includes size
         struct stat file_info;
         if (stat(FILE_PATH, &file_info) == 0) {
             printf("File: %s, Size: %lld bytes\n", FILE_PATH,
@@ -140,10 +137,8 @@ void* pthread_copy_file_content(void* arg) {
         }
 
         while ((c = fgetc(source)) != EOF) {
-            // lock destination file to avoid data corruption
             flockfile(dest_file);
             fputc(c, dest_file);
-            // unlock destination file
             funlockfile(dest_file);
         }
 
@@ -176,7 +171,6 @@ void* pthread_copy_file_content(void* arg) {
  */
 void merge_files(const char* source_files[], int num_source_files,
                  const char* dest_file_path) {
-    // hold our thread ids
     pthread_t threads[num_source_files];
 
     for (int i = 0; i < num_source_files; ++i) {
@@ -199,8 +193,6 @@ void merge_files(const char* source_files[], int num_source_files,
     for (int i = 0; i < num_source_files; ++i) {
         pthread_join(threads[i], NULL);
     }
-
-
 }
 
 
@@ -217,10 +209,8 @@ void merge_files(const char* source_files[], int num_source_files,
 void print_file_permissions(const char* files[], int num_files) {
     for (int i = 0; i < num_files; ++i) {
         const char* FILE_PATH = files[i];
-        // use stat to get file information, includes permissions
         struct stat file_info;
         if (stat(FILE_PATH, &file_info) == 0) {
-            // print permissions as an integer (000 to 777)
             printf("File: %s, Permissions: %o\n", FILE_PATH,
                    file_info.st_mode & 0777);
         } else {

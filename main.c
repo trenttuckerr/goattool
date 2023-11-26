@@ -13,7 +13,6 @@
 
 
 int main(int argc, char *argv[]){
-    // count of expected arguments - ./goattool and -[switch]
     const int RUN_AND_SWITCH_ARGUMENT_COUNT = 2;
 
     if (argc == 1){
@@ -30,7 +29,6 @@ int main(int argc, char *argv[]){
             return 1;
         }
 
-        // copy file names to files_arg
         char **files_arg = malloc((argc - RUN_AND_SWITCH_ARGUMENT_COUNT)
                                   * sizeof(char *));
         for (int i = 0; i < argc - RUN_AND_SWITCH_ARGUMENT_COUNT; i++) {
@@ -41,7 +39,6 @@ int main(int argc, char *argv[]){
             }
         }
 
-        // example: ./goattool -p, --print <file1> [file2] [file3] ...
         print_file_contents(files_arg, argc - RUN_AND_SWITCH_ARGUMENT_COUNT);
 
         for (int i = 0; i < argc - RUN_AND_SWITCH_ARGUMENT_COUNT; i++) {
@@ -54,7 +51,6 @@ int main(int argc, char *argv[]){
         const int EXACT_NUMBER_OF_ARGS_NEEDED_FOR_SEARCH_OPERATION = 4;
 
         if (argc == EXACT_NUMBER_OF_ARGS_NEEDED_FOR_SEARCH_OPERATION){
-            // example: ./goattool -s, --search <file> <string>
             search_file_for_string(argv[2], argv[3]);
         } else{
             fprintf(stderr, "Usage: %s -s/--search <file> <string>\n",
@@ -69,7 +65,6 @@ int main(int argc, char *argv[]){
             fprintf(stderr, "Usage: %s -z/--size <files>\n", argv[0]);
             return 1;
         }
-        // example: ./goattool -z, --size <files>
         int num_files = argc - RUN_AND_SWITCH_ARGUMENT_COUNT;
         print_file_size(argv + RUN_AND_SWITCH_ARGUMENT_COUNT, num_files);
     }
@@ -92,7 +87,6 @@ int main(int argc, char *argv[]){
     else if (strcmp(COMMAND, "-c") == 0 || strcmp(COMMAND, "--compress") == 0){
         const int EXACT_NUMBER_OF_ARGS_NEEDED_FOR_COMPRESS_OPERATION = 3;
         if (argc == EXACT_NUMBER_OF_ARGS_NEEDED_FOR_COMPRESS_OPERATION){
-            // Example: ./goattool -c, --compress <file>
             compress_to_goat(argv[2]);
         } else{
             fprintf(stderr, "Usage: %s -c/--compress <file>\n", argv[0]);
@@ -100,12 +94,10 @@ int main(int argc, char *argv[]){
         }
     }
 
-        // DECOMPRESS
     else if (strcmp(COMMAND, "-d") == 0 ||
              strcmp(COMMAND, "--decompress") == 0){
         const int EXACT_NUMBER_OF_ARGS_NEEDED_FOR_DECOMPRESS_OPERATION = 3;
         if (argc == EXACT_NUMBER_OF_ARGS_NEEDED_FOR_DECOMPRESS_OPERATION) {
-            // Example: ./goattool -d, --decompress <file>
             decompress_from_goat(argv[2]);
         } else {
             fprintf(stderr, "Usage: %s -d/--decompress <file>\n", argv[0]);
@@ -113,7 +105,6 @@ int main(int argc, char *argv[]){
         }
     }
 
-        // PERMISSIONS
     else if (strcmp(COMMAND, "-rwx") == 0 ||
              strcmp(COMMAND, "--permissions") == 0){
         const int MINIMUM_ARGS_FOR_PERMISSIONS_OPERATION = 3;
@@ -121,15 +112,12 @@ int main(int argc, char *argv[]){
             fprintf(stderr, "Usage: %s -rwx/--permissions <files>\n", argv[0]);
             return 1;
         }
-        // Example: ./goattool -rwx, --permissions <files>
-        int num_files = argc - 2; // Calculate the number of files passed
+        int num_files = argc - 2;
         print_file_permissions(argv + 2, num_files);
     }
 
-        // MOVE
     else if (strcmp(COMMAND, "-mv") == 0 || strcmp(COMMAND, "--move") == 0){
         const int EXACT_NUMBER_OF_ARGS_NEEDED_FOR_MOVE_OPERATION = 4;
-        // Example: ./goattool -mv, --move <source> <destination>
         if (argc == EXACT_NUMBER_OF_ARGS_NEEDED_FOR_MOVE_OPERATION) {
             move_file(argv[2], argv[3]);
         } else {
@@ -138,9 +126,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-        // HELP
     else if (strcmp(COMMAND, "-h") == 0 || strcmp(COMMAND, "--help") == 0){
-        // Example: ./goattool -h, --help
         print_help_page();
     }
 

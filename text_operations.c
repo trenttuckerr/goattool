@@ -1,18 +1,43 @@
+/*
+ * File: text_operations.c
+ * Author: Trent Tucker
+ * Description: goattool's implementation for the text operations
+ *              that the tool offers
+ * Created on: November 19, 2023
+ */
+
 #include "text_operations.h"
-
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
+/**
+ * @brief Compress a text file into the .goat format.
+ *
+ * This function takes the path of a source text file and
+ * compresses its contents into the .goat format.
+ * The compressed file is created in the same directory
+ * with the same name and the ".goat" extension.
+ *
+ * @param source_file_path The path of the source text file.
+ */
 void compress_to_goat(const char* source_file_path) {
-    printf("reached compression algorithm");
     FILE* source_file = fopen(source_file_path, "r");
     if (source_file == NULL) {
         perror("Error opening source file");
         return;
     }
 
-    // Create the compressed file with ".goat" extension
-    char goat_file_path[256]; // change as needed, assuming path will be < 256 chars
-    snprintf(goat_file_path, sizeof(goat_file_path), "%s.goat", source_file_path);
+    // create the compressed .goat file
+    char goat_file_path[256]; // change if needed
+    strcpy(goat_file_path, source_file_path);
+
+    // get our file to be .goat and rid old extension
+    char * last_dot = strchr(goat_file_path, '.');
+    if(last_dot != NULL) {
+        strcpy(last_dot, ".goat");
+    }
+
     FILE* goat_file = fopen(goat_file_path, "w");
     if (goat_file == NULL) {
         perror("Error creating compressed file");
@@ -23,25 +48,27 @@ void compress_to_goat(const char* source_file_path) {
     int current_char = fgetc(source_file);
     int count = 1;
 
-    // compression algorithm
     while (current_char != EOF) {
-        if(current_char == ' ') {
-            printf("we have hit this top declaration for %c\n", current_char);
+        if (current_char == ' ') {
+            // space character, print without compression due to reqs
             fprintf(goat_file, "%c", current_char);
             current_char = fgetc(source_file);
             continue;
+        } else if (current_char == '\n') {
+            // newline character, represent it in compressed form
+            fprintf(goat_file, "\\n%d", count);
+            current_char = fgetc(source_file);
+            count = 1;
+            continue;
         }
 
+        // we are dealing with a non-space, non-newline character
         int next_char = fgetc(source_file);
 
-        // check if the next character is the same as the current one and not a space
         if (next_char == current_char) {
             count++;
         } else {
-            printf("we have hit this bot declaration for %c\n", current_char);
-            // write compressed data to .goat file
             fprintf(goat_file, "%c%d", current_char, count);
-
             current_char = next_char;
             count = 1;
         }
@@ -50,46 +77,108 @@ void compress_to_goat(const char* source_file_path) {
     fclose(source_file);
     fclose(goat_file);
 
-    printf(".goat compression completed.\n .goat file: file: %s\n", goat_file_path);
+    printf(".goat compression completed\n.goat file: %s\n",
+           goat_file_path);
 }
 
+
+/**
+ * @brief Decompress a .goat file to retrieve the original text.
+ *
+ * This function takes the path of a source .goat file
+ * and decompresses its contents, creating a text file
+ * in the same directory with the same name (without the ".goat"
+ * extension) containing the decompressed content.
+ *
+ * @param source_goat_file_path The path of the source .goat file.
+ */
 void decompress_from_goat(const char* source_goat_file_path) {
-    // Implementation
+// open the source .goat file for reading
+    FILE* source_file = fopen(source_goat_file_path, "r");
+    if (source_file == NULL) {
+        perror("Error opening source .goat file");
+        return;
+    }
+
+    char decompressed_file_path[100];
+    snprintf(decompressed_file_path, sizeof(decompressed_file_path),
+             "%s.decompressed.txt", source_goat_file_path);
+
+    // open the decompressed file for writing
+    FILE* decompressed_file = fopen(decompressed_file_path, "w");
+    if (decompressed_file == NULL) {
+        perror("Error creating decompressed file");
+        fclose(source_file);
+        return;
+    }
+
+    // variables to store the current character and count
+    char current_char;
+    int count = 1;
+
+    // read characters from .goat
+    while (fscanf(source_file, "%c", &current_char) == 1) {
+        // check for the count immediately following the character
+        if (fscanf(source_file, "%d", &count) != 1) {
+            // if count is not provided, set it to 1
+            count = 1;
+        }
+
+        if (current_char == ' ') {
+            fprintf(decompressed_file, " ");
+        } else if (current_char == '\n') {
+            for (int i = 0; i < count; i++) {
+                fprintf(decompressed_file, "\n");
+            }
+        } else {
+            // write count times to file
+            for (int i = 0; i < count; i++) {
+                fprintf(decompressed_file, "%c", current_char);
+            }
+        }
+    }
+
+    fclose(source_file);
+    fclose(decompressed_file);
+
+    printf("decompression complete, decompressed file saved as %s\n",
+           decompressed_file_path);
 }
 
 
 /**
  * @brief Print a help page for the GoatTool program.
  *
- * This function prints a help page to the console, providing information on how
- * to use the GoatTool program, its commands, and their respective functionalities.
+ * This function prints a help page to the console,
+ * providing information on how to use the GoatTool program,
+ * its commands, and their respective functionalities.
  */
 void print_help_page(void) {
     printf("\t\t\t\t\tHelp Page\n\n");
-    printf("Overview: GoatTool is a command-line utility designed to assist\n");
-    printf("users in exploring and understanding the file system of their\n");
-    printf("Unix-like operating systems. It offers various operations, including\n");
-    printf("printing file contents, searching for specific strings, printing file\n");
-    printf("sizes, merging files, compressing and decompressing files in the .goat\n");
-    printf("format, displaying file permissions, moving files, and providing a\n");
-    printf("help page. With its straightforward interface and an array of\n");
-    printf("essential operations, GoatTool simplifies the management of files and\n");
-    printf("provides insights into your file system.\n\n");
+    printf("Overview: GoatTool is a CLI utility for exploring and\n");
+    printf("understanding Unix file systems. It includes operations\n");
+    printf("like printing file contents, searching for strings, file\n");
+    printf("sizes, merging files, compressing/decompressing in .goat\n");
+    printf("format, displaying file permissions, moving files, and\n");
+    printf("providing a help page. Simplifies file management and\n");
+    printf("offers insights into your file system.\n\n");
     printf("Usage: ./goattool [switch] [arguments]\n\n");
     printf("Switches:\n");
-    printf("  -p, --print <file>                 Print the contents of one or more files.\n");
-    printf("  -s, --search <file> <string>       Search a file for a particular string and print every line of\n");
-    printf("                                     the file that contains that string.\n");
-    printf("  -z, --size <file>                  Print the size of one or more files.\n");
-    printf("  -m, --merge <output-file> <files>  Merge multiple files into a single file with a specified\n");
-    printf("                                     name and path.\n");
-    printf("  -c, --compress <file>              Compress a text file into the .goat format.\n");
-    printf("  -d, --decompress <file>            Decompress a .goat file to retrieve the original text.\n");
-    printf("  -rwx, --permissions <file>         Print the permissions of one or more files as an integer (000 to\n");
-    printf("                                     777).\n");
-    printf("  -mv, --move <source> <destination> Move a file from one place to another with a specified path\n");
-    printf("                                     and new name.\n");
-    printf("  -h, --help                         Print a help page.\n\n");
+    printf("  -p, --print <files>\t\t\tPrint contents of 1+ files.\n");
+    printf("  -s, --search <file> <str>\t\t\tSearch file for a string and\n");
+    printf("                           \t\t\tprint every line with string.\n");
+    printf("  -z, --size <files>\t\t\tPrint size of one or more files.\n");
+    printf("  -m, --merge <output> <files>\t\t\tMerge files into a file\n");
+    printf("                              \t\t\twith a name and path.\n");
+    printf("  -c, --compress <file>\t\t\tCompress a text file to .goat.\n");
+    printf("                       \t\t\twith a specified name and path.\n");
+    printf("  -d, --decompress <file>\t\t\tDecompress a .goat file to get\n");
+    printf("                         \t\t\tthe original text.\n");
+    printf("  -rwx, --permissions <files>\t\t\tPrint permissions of\n");
+    printf("                            \t\t\tfiles (000 to 777).\n");
+    printf("  -mv, --move <source> <dest>\t\t\tMove a file from source\n");
+    printf("                             \t\t\tpath to destination path.\n");
+    printf("  -h, --help                 \t\t\tPrint a help page.\n\n");
     printf("Examples:\n");
     printf("> ./goattool -s file.txt password\n");
     printf("> ./goattool -mv writing.txt ~/dev/new.txt\n");

@@ -1,0 +1,290 @@
+Operation 1: Print the contents of one or more files
+
+example_file.txt:
+`This is an example file.`
+file1.txt:
+`Hello`
+file2.txt:
+`World`
+
+Test Case 1
+Input:              ./goattool -p example_file.txt
+Expected Output:    "This is an example file."
+Received Output:    {Insert run from code} 
+
+Test Case 2:        
+Input:              ./goattool -p non_existent_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 3: 
+Input:              ./goattool -p file1.txt file2.txt 
+Expected Output:    "HelloWorld"
+Received Output:    {Insert run from code}        
+
+Test Case 4:
+Input:              ./goattool -p
+Expected Output:    "Error: No files specified for printing."
+Received Output:    {Insert run from code}
+
+Test Case 5:
+Input:              ./goattool -p example_file.txt non_existent_file.txt
+Expected Output:    "This is an example file. Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+
+
+Operation 2: Search a file for a particular string
+
+example_file.txt:
+`This is an example file.`
+
+Test Case 6:
+Input:              ./goattool -s example_file.txt "example"
+Expected Output:    All lines containing "example" in 'example_file.txt'.
+Received Output:    {Insert run from code}
+
+Test Case 7:
+Input:              ./goattool -s example_file.txt "nonexistentstring"
+Expected Output:    "No lines containing 'nonexistentstring' found in 'example_file.txt'."
+Received Output:    {Insert run from code}
+
+
+Test Case 8:
+Input:              ./goattool -s non_existent_file.txt "search_string"
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 9:
+Input:              ./goattool -s example_file.txt
+Expected Output:    "Error: No search string specified."
+Received Output:    {Insert run from code}
+
+Test Case 10:
+Input:              ./goattool -s
+Expected Output:    "Error: No file or search string specified."
+Received Output:    {Insert run from code}
+
+
+
+Operation 3: Print the size of one or more files
+
+example_file.txt:
+`This is an example file.` (24 bytes in size)
+file1.txt:
+`Contents of file1.txt` (21 bytes in size)
+file2.txt:
+`Contents of file2.txt` (21 bytes in size)
+
+Test Case 11: 
+Input:              ./goattool -z example_file.txt
+Expected Output:    "Size of 'example_file.txt': 24 bytes"
+Received Output:    {Insert run from code}
+
+Test Case 12:
+Input:              ./goattool -z non_existent_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 13:
+Input:              ./goattool -z example_file.txt non_existent_file.txt
+Expected Output:    "Size of 'example_file.txt': X bytes\nError: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 14:
+Input:              ./goattool -z
+Expected Output:    "Error: No files specified for size check."
+Received Output:    {Insert run from code}
+
+Test Case 15:
+Input:              ./goattool -z file1.txt file2.txt
+Expected Output:    "Size of 'file1.txt': 21 bytes\nSize of 'file2.txt': 21 bytes."
+Received Output:    {Insert run from code}
+
+
+
+Operation 4: Merge multiple files into a single file
+
+merged_file.txt (After the run of test case 16):
+`foobar`
+file1.txt:
+`foo`
+file2.txt:
+`bar`
+
+Test Case 16:
+Input:              ./goattool -m merged_file.txt file1.txt file2.txt
+Expected Output:    "Merged files: 'file1.txt', 'file2.txt' into 'merged_file.txt'."
+Received Output:    {Insert run from code}
+
+Test Case 17:
+Input:              ./goattool -m merged_file.txt non_existent_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 18:
+Input:              ./goattool -m merged_file.txt
+Expected Output:    "Error: No source files specified for merging."
+Received Output:    {Insert run from code}
+
+Test Case 19:
+Input:              ./goattool -m 
+Expected Output:    "Error: No output file or source files specified for merging."
+Received Output:    {Insert run from code}
+
+Test Case 20:
+Input:              ./goattool -m merged_file.txt non_text_file.jpg
+Expected Output:    "Error: 'non_text_file.jpg' is not a valid text file."
+Received Output:    {Insert run from code}
+
+
+
+Operation 5: Compress a text file into the .goat format
+
+example_file.txt:
+`This is an example file.`
+example_file.goat (After the run of test case 21):
+`This is an example file.`
+
+Test Case 21:
+Input:              ./goattool -c example_file.txt
+Expected Output:    "Compressed 'example_file.txt' to 'example_file.goat'."
+Received Output:    {Insert run from code}
+
+Test Case 22: 
+Input:              ./goattool -c non_text_file.txt
+Expected Output:    "Error: 'non_text_file.txt' is not a valid text file."
+Received Output:    {Insert run from code}
+
+Test Case 23:
+Input:              ./goattool -c non_existent_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 24:
+Input:              ./goattool -c
+Expected Output:    "Error: No file specified for compression."
+Received Output:    {Insert run from code}
+
+Test Case 25:
+Input:              ./goattool -c example_file.txt non_text_file.txt
+Expected Output:    "Compressed 'example_file.txt' to 'example_file.goat'.\nError: 'non_text_file.txt' is not a valid text file."
+Received Output:    {Insert run from code}
+
+
+
+Operation 6: Decompress a .goat file
+
+example_file.txt (After the run of test case 26):
+`This is an example file.`
+example_file.goat:
+`This is an example file.`
+
+Test Case 26:
+Input:              ./goattool -d example_file.goat
+Expected Output:    "Decompressed 'example_file.goat' to 'example_file.txt'."
+Received Output:    {Insert run from code}
+
+
+Test Case 27:
+Input:              ./goattool -d non_existent_file.goat
+Expected Output:    "Error: The file 'non_existent_file.goat' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 28:
+Input:              ./goattool -d
+Expected Output:    "Error: No .goat file specified for decompression."
+Received Output:    {Insert run from code}
+
+Test Case 29:
+Input:              ./goattool -d example_file.txt
+Expected Output:    "Error: 'example_file.txt' is not a .goat file."
+Received Output:    {Insert run from code}
+
+Test Case 30:
+Input:              ./goattool -d example_file.goat non_existent_file.goat
+Expected Output:    "Decompressed 'example_file.goat' to 'example_file.txt'.\nError: The file 'non_existent_file.goat' does not exist."
+Received Output:    {Insert run from code}
+
+
+
+Operation 7: Print the permissions of one or more files
+
+Test Case 31:
+Input:              ./goattool -rwx example_file.txt
+Expected Output:    "Permissions of 'example_file.txt': 644."
+Received Output:    {Insert run from code}
+
+Test Case 32:
+Input:              ./goattool -rwx non_existent_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 33:
+Input:              ./goattool -rwx
+Expected Output:    "Error: No files specified for permission check."
+Received Output:    {Insert run from code}
+
+Test Case 34:
+Input:              ./goattool -rwx file1.txt file2.txt
+Expected Output:    "Permissions of 'file1.txt': XYZ\nPermissions of 'file2.txt': ABC."
+Received Output:    {Insert run from code}
+
+Test Case 35:
+Input:              ./goattool -rwx non_existent_file.txt file1.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist.\nPermissions of 'file1.txt': XYZ."
+Received Output:    {Insert run from code}
+
+
+
+Operation 8: Move a file from one place to another
+
+Test Case 36:
+Input:              ./goattool -mv source_file.txt destination_folder/renamed_file.txt
+Expected Output:    "Moved 'source_file.txt' to 'destination_folder/renamed_file.txt'."
+Received Output:    {Insert run from code}
+
+Test Case 37:
+Input:              ./goattool -mv non_existent_file.txt destination_folder/renamed_file.txt
+Expected Output:    "Error: The file 'non_existent_file.txt' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 38:
+Input:              ./goattool -mv source_file.txt non_existent_folder/renamed_file.txt
+Expected Output:    "Error: The destination folder 'non_existent_folder' does not exist."
+Received Output:    {Insert run from code}
+
+Test Case 39:
+Input:              ./goattool -mv
+Expected Output:    "Error: No source file or destination specified for moving."
+Received Output:    {Insert run from code}
+
+Test Case 40:
+Input:              ./goattool -mv source_file.txt
+Expected Output:    "Error: No destination specified for moving 'source_file.txt'."
+Received Output:    {Insert run from code}
+
+
+
+Operation 9: Printing the help page
+
+Test Case 41: 
+Input:              ./goattool -h
+Expected Output:    [Print the help page with program usage instructions.]
+Received Output:    {Insert run from code}
+
+Default Case (No switch provided)
+Test Case 42: 
+Input:              ./goattool
+Expected Output:    [Print the help page with program usage instructions.]
+Received Output:    {Insert run from code}
+
+
+
+
+
+
+
+
+
+

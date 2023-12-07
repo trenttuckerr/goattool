@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Redirect all output to a file
+exec > runner_output.txt
+exec 2>&1
+
 # Compile project
 # make -f Makefile
 
@@ -492,48 +496,3 @@ Examples:
 echo -e "Received Output:"
 echo -e "$(./goattool)"
 echo -e "=====================\n"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

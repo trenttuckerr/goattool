@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
                     argv[0]);
             return 1;
         }
-
+        
         const char* output_file = argv[2];
         int num_source_files = argc - 3;
         const char** source_files = (const char**)&argv[3];

@@ -27,7 +27,8 @@ void print_file_contents(const char *files[], int num_files) {
     for (int i = 0; i < num_files; ++i) {
         FILE *file = fopen(files[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Error opening file: %s\n", files[i]);
+            printf("Error: The file '%s' does not exist.\n", files[i]);
+            // fprintf(stderr, "Error opening file: %s\n", files[i]);
             continue;
         }
         printf("Contents of file: %s\n", files[i]);

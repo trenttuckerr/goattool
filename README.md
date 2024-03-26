@@ -8,7 +8,7 @@ Trent Tucker
 ## How to Compile
 
 ```bash
-gcc file_operations.c text_operations.c main.c -o goattool
+goattool user$ gcc file_operations.c text_operations.c main.c -o goattool
 ```
 
 ## How to Run
@@ -33,3 +33,12 @@ Examples:
 ...
 ```
 
+## How to Test
+Testing for this project was done using Bash. The idea behind this: using Bash to further my skills and familiarity with the language.
+```bash
+goattool user$ ./runner.sh
+```
+After the run of this command, you will see a generated file called runner_output.txt. Here you can find the results of the tests.
+```bash
+goattool user$ cat runner_output.txt
+```

@@ -129,7 +129,7 @@ void decompress_from_goat(const char* source_goat_file_path) {
     fclose(source_file);
     fclose(decompressed_file);
 
-    printf("decompression complete, decompressed file saved as %s\n",
+    printf("decompression saved into %s\n",
            decompressed_file_path);
 }
 

@@ -8,7 +8,7 @@ Trent Tucker
 ## How to Compile
 
 ```bash
-gcc file_operations.c text_operations.c main.c -o goattool
+goattool user$ gcc file_operations.c text_operations.c main.c -o goattool
 ```
 
 ## How to Run
@@ -16,14 +16,14 @@ gcc file_operations.c text_operations.c main.c -o goattool
 ```bash
 Usage: ./goattool [switch] [arguments]
 Switches:
--p, --print <file>                 Print the contents of one or more files.
--s, --search <file> <string>       Search a file for a particular string and print every line of the file that contains that string.
--z, --size <file>                  Print the size of one or more files.
--m, --merge <output-file> <files>  Merge multiple files into a single file with a specified name and path.
--c, --compress <file>              Compress a text file into the .goat format.
--d, --decompress <file>            Decompress a .goat file to retrieve the original text.
--rwx, --permissions <file>         Print the permissions of one or more files as an integer (000 to 777).
--mv, --move <source> <destination> Move a file from one place to another with a specified path and new name.
+-p, --print <file-path>                 Print the contents of one or more files.
+-s, --search <file-path> <string>       Search a file for a particular string and print every line of the file that contains that string.
+-z, --size <file-path>                  Print the size of one or more files.
+-m, --merge <output-file-path> <files>  Merge multiple files into a single file with a specified name and path.
+-c, --compress <file-path>              Compress a text file into the .goat format.
+-d, --decompress <file-path>            Decompress a .goat file to retrieve the original text.
+-rwx, --permissions <file-path>         Print the permissions of one or more files as an integer (000 to 777).
+-mv, --move <source-path> <destination-path> Move a file from one place to another with a specified path and new name.
 -h, --help                         Print a help page.
 
 Examples:
@@ -33,3 +33,12 @@ Examples:
 ...
 ```
 
+## How to Test
+Testing for this project was done using Bash. The idea behind this: using Bash to further my skills and familiarity with the language.
+```bash
+goattool user$ ./runner.sh
+```
+After the run of this command, you will see a generated file called runner_output.txt. Here you can find the results of the tests.
+```bash
+goattool user$ cat runner_output.txt
+```
